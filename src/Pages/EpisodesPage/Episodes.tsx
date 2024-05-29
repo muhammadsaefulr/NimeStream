@@ -1,0 +1,91 @@
+import { useParams } from "react-router";
+
+import axios from "axios";
+import { Star } from "lucide-react";
+import { useEffect, useState } from "react";
+import EpisodeList from "./EpisodeList";
+
+export const Episodes = () => {
+  const { source } = useParams();
+
+  const [dataResInfo, setdataResInfo] = useState(null);
+  const [dataResEp, setDataResEp] = useState(null);
+
+  useEffect(() => {
+    axios.get(`/main/otakudesu/watch/${source}`).then((res) => {
+      const dataRes = res.data?.data;
+      const dataResInfo = res.data.data?.dataInfo[0];
+      setdataResInfo(dataResInfo);
+      setDataResEp(dataRes?.dataEps);
+    });
+  }, []);
+
+  return (
+    <div className="w-full">
+      <img
+        src={dataResInfo?.thumbnailImage}
+        alt=""
+        className="w-[100%] object-cover max-h-64 rounded-md sm:max-h-72 md:max-h-80 lg:max-h-96 xl:max-h-[30rem]"
+        width={210}
+        height={150}
+        style={{
+          maskImage: "linear-gradient(to top, transparent, black)",
+          WebkitMaskImage: "linear-gradient (to top, transparent, black)",
+        }}
+      />
+      <div className="px-6">
+        <div className="flex-col">
+          <h1 className="text-left text-white">{dataResInfo?.title}</h1>
+          <h1 className="text-left py-2 font-semibold text-white lg:text-6xl sm: text-2xl">
+            {dataResInfo?.title}
+          </h1>
+          <div className="section-info flex lg:text-lg sm: text-sm">
+            <div className="flex">
+              <Star className="lg:text-md sm: tex-sm" />
+            </div>
+            <div className="flex lg:pt-0 sm: pt-1 ">
+              <p className="px-3">{dataResInfo?.rating}</p>
+              <p>•</p>
+              <p className="px-3">{dataResInfo?.status}</p>
+              <p>•</p>
+              <p className="px-3">{dataResInfo?.studio}</p>
+              <p>•</p>
+              <p className="px-3">
+                {dataResInfo?.releaseDate?.replace("Tanggal Rilis: ", "")}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="container lg:w-1/3 md:w-full pt-6">
+          <div className="flex flex-wrap gap-3">
+            {dataResInfo?.genre.map((data) => (
+              <div>
+                <button className="rounded-md border-white border-2 px-2">
+                  {data.genre}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="desc-sinopsis pt-5">
+          <h1 className="text-white font-bold text-2xl py-3">Sinopsis</h1>
+          <div className="overflow-auto max-h-64">
+            <p>
+              {dataResInfo?.sinopsis === "" || null
+                ? "Tidak Tersedia"
+                : dataResInfo?.sinopsis}
+            </p>
+          </div>
+        </div>
+        <section className="pt-6 relative">
+          <div className="pt-2">
+            <h1 className="text-white font-semibold text-xl">
+              Hingga {dataResInfo?.totalEps} Episode
+            </h1>
+          </div>
+          <EpisodeList dataEps={dataResEp} />
+        </section>
+      </div>
+    </div>
+  );
+};

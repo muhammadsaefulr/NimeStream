@@ -1,8 +1,10 @@
 import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar/Navbar";
-import Home from "./Pages/Home/Home";
-import Ongoing from "./Pages/Ongoing/Ongoing";
+import Home from "./Pages/HomePage/Home";
+import Ongoing from "./Pages/GenrePage/Ongoing";
+import { Episodes } from "./Pages/EpisodesPage/Episodes";
+import PlayAnime from "./Pages/PlayAnime/PlayAnime";
 
 const App = () => {
   return (
@@ -14,6 +16,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/ongoing" element={<Ongoing />} />
+          <Route path="/watch/anime/:source" element={<Episodes/>}/>
+          <Route path="/play/episode/:source" element={<PlayAnime/>} />
         </Routes>
       </div>
     </div>

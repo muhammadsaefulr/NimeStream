@@ -4,7 +4,7 @@ import { nessecaryData } from "./logic/jumbotron.logic";
 
 const Jumbotron = () => {
 
-  let dataJumbotron = nessecaryData()
+  const dataJumbotron = nessecaryData()
 
   return (
     <>
@@ -23,7 +23,7 @@ const Jumbotron = () => {
               <div className="absolute inset-0 bg-black opacity-30"></div>
               <div className="absolute inset-0 flex flex-col justify-center z-10 text-white xl:mx-16 lg: mx-8">
                 <h1 className="font-semibold text-xl mb-2">{data.title}</h1>
-                <p className="text-md py-2 xl:w-1/2 lg: w-full">
+                <p className="text-md py-2 xl:w-2/3 lg: w-full">
                   {data.description}
                 </p>
 
