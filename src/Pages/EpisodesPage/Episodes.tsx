@@ -1,24 +1,17 @@
 import { useParams } from "react-router";
-
-import axios from "axios";
 import { Star } from "lucide-react";
-import { useEffect, useState } from "react";
 import EpisodeList from "./EpisodeList";
+import fetchApi from "../../handleRequest/action";
 
-export const Episodes = () => {
+const Episodes = () => {
   const { source } = useParams();
 
-  const [dataResInfo, setdataResInfo] = useState(null);
-  const [dataResEp, setDataResEp] = useState(null);
+  const {data: dataRes, isLoading} = fetchApi.useReqAnimeEpsList(source)
+  const dataResInfo = dataRes?.data?.dataInfo[0];
 
-  useEffect(() => {
-    axios.get(`/main/otakudesu/watch/${source}`).then((res) => {
-      const dataRes = res.data?.data;
-      const dataResInfo = res.data.data?.dataInfo[0];
-      setdataResInfo(dataResInfo);
-      setDataResEp(dataRes?.dataEps);
-    });
-  }, []);
+  if(isLoading){
+    return <div>Loading...</div>
+  }
 
   return (
     <div className="w-full">
@@ -83,9 +76,11 @@ export const Episodes = () => {
               Hingga {dataResInfo?.totalEps} Episode
             </h1>
           </div>
-          <EpisodeList dataEps={dataResEp} />
+          <EpisodeList dataEps={dataRes?.data.dataEps} />
         </section>
       </div>
     </div>
   );
 };
+
+export default Episodes;

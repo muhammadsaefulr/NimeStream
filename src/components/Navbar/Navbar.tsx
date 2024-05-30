@@ -1,9 +1,10 @@
-// import { GiHamburgerMenu } from "react-icons/gi";
 import { Menu, Search } from "lucide-react";
 import Sidebar from "../Sidebar/Sidebar";
-// import { FaMagnifyingGlass } from "react-icons/fa6";
+import { useState } from "react";
 
 const Navbar = () => {
+  const [searchData, setSearchData] = useState(null)
+  
   return (
     <>
       <nav className="z-50 navbar dark:bg-base-100 light:bg-white-200">
