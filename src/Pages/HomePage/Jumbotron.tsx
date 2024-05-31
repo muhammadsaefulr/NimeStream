@@ -1,6 +1,6 @@
 import { Play } from "lucide-react";
 import { Link } from "react-router-dom";
-import { nessecaryData } from "./logic/homepage.logic";
+import { nessecaryData } from "./func/homepage.func";
 
 const Jumbotron = () => {
 

@@ -23,9 +23,9 @@
     // Custom Basepath
     "baseUrl": "./",
     "paths": {
-      "rootDir": ["src"],
-      "@src/*": ["src/*"],
-      "@assets": ["@src/assets/*"]
+      "@src/*": ["src/*"], 
+      "@utils/*": ["src/Utils/*"], 
+      "@assets/*": ["src/assets/*"]
     }
   },
   "include": ["src"],

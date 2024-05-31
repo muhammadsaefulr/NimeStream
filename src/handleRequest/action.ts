@@ -24,12 +24,25 @@ class fetchApi {
   };
   static reqPlayAnime = (urlSourcePath: string | undefined) => {
     return useQuery({
-        queryKey: ['getPlayAnime'],
-        queryFn: async () => {
-            const response = await axios.get(`/main/api/service/otakudesu/play/${urlSourcePath}`)
-            return response.data.responseData
-        }
-    })
+      queryKey: ["getPlayAnime"],
+      queryFn: async () => {
+        const response = await axios.get(
+          `/main/api/service/otakudesu/play/${urlSourcePath}`
+        );
+        return response.data.responseData;
+      },
+    });
+  };
+  static reqSearchAnime = (inputValue: string | undefined) => {
+    return useQuery({
+      queryKey: ["getSearchAnime"],
+      queryFn: async () => {
+        const response = await axios.get(
+          `/main/api/service/otakudesu/search?q=${inputValue}`
+        );
+        return response.data.data;
+      },
+    });
   };
 }
 
