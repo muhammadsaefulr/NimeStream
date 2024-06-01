@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  ArrowBigLeft,
   ArrowRightToLineIcon,
   FastForwardIcon,
   FullscreenIcon,
@@ -8,6 +9,7 @@ import {
   Volume2Icon,
   VolumeX,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface ControlsPlayerProps {
   onPlayPause: () => void;
@@ -23,6 +25,7 @@ interface ControlsPlayerProps {
   currentTime: string;
   ControlRef: React.RefObject<HTMLDivElement>;
   duration: string;
+  sourceTitle: string | undefined;
 }
 
 const ControlsPlayer: React.FC<ControlsPlayerProps> = ({
@@ -37,6 +40,7 @@ const ControlsPlayer: React.FC<ControlsPlayerProps> = ({
   mute,
   onFullscreen,
   // duration,
+  sourceTitle,
   currentTime,
 }) => {
   const handleSeekChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,8 +57,14 @@ const ControlsPlayer: React.FC<ControlsPlayerProps> = ({
 
   return (
     <div className="absolute flex flex-col z-10 top-0 bottom-0 left-0 right-0">
-      <div className="top-container flex items-center justify-between ml-2 mt-3">
-        <p className="text-white font-semibold text-lg">Halo Player</p>
+      <div className="top-container flex items-center justify-between mx-2 mt-3">
+        <Link to="/">
+          <ArrowBigLeft
+            size={30}
+            className="text-white hover:bg-green-400 rounded-md"
+          />
+        </Link>
+        <p className="text-white font-semibold text-lg">{sourceTitle}</p>
       </div>
       <div className="middle-container flex justify-center items-center gap-x-4 content-center h-5/6 md: pt-6">
         <div>
