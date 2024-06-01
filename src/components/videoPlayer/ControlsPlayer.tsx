@@ -2,6 +2,7 @@ import React from "react";
 import {
   ArrowRightToLineIcon,
   FastForwardIcon,
+  FullscreenIcon,
   PauseIcon,
   PlayIcon,
   Volume2Icon,
@@ -15,9 +16,13 @@ interface ControlsPlayerProps {
   mute: boolean;
   onForward: () => void;
   onRewind: () => void;
+  onFullscreen: () => void;
   onSeek: (value: number) => void;
   onSeekMouseUp: (value: number) => void;
   onMute: () => void;
+  currentTime: string;
+  ControlRef: React.RefObject<HTMLDivElement>;
+  duration: string;
 }
 
 const ControlsPlayer: React.FC<ControlsPlayerProps> = ({
@@ -30,9 +35,9 @@ const ControlsPlayer: React.FC<ControlsPlayerProps> = ({
   onSeekMouseUp,
   onMute,
   mute,
-  duration,
+  onFullscreen,
+  // duration,
   currentTime,
-  ControlRef,
 }) => {
   const handleSeekChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onSeek(parseFloat(event.target.value) / 100);
@@ -47,12 +52,11 @@ const ControlsPlayer: React.FC<ControlsPlayerProps> = ({
   };
 
   return (
-    <div
-      className="absolute flex flex-col z-10 top-0 bottom-0 left-0 right-0"
-      ref={ControlRef}
-    >
-      <div className="top-container flex items-center justify-between ml-2 mt-3"></div>
-      <div className="middle-container flex justify-center items-center gap-x-4 content-center h-5/6">
+    <div className="absolute flex flex-col z-10 top-0 bottom-0 left-0 right-0">
+      <div className="top-container flex items-center justify-between ml-2 mt-3">
+        <p className="text-white font-semibold text-lg">Halo Player</p>
+      </div>
+      <div className="middle-container flex justify-center items-center gap-x-4 content-center h-5/6 md: pt-6">
         <div>
           <FastForwardIcon
             onDoubleClick={onRewind}
@@ -78,14 +82,14 @@ const ControlsPlayer: React.FC<ControlsPlayerProps> = ({
           />
         </div>
       </div>
-      <div className="bottom__container">
+      <div className="bottom__container pt-10 md:p">
         <div className="flex items-center mx-2 ">
           <input
             type="range"
             min={0}
             max={100}
             value={played * 100}
-            className="range w-full"
+            className="w-full"
             onChange={handleSeekChange}
             onMouseUp={handleSeekMouseUp}
           />
@@ -106,7 +110,10 @@ const ControlsPlayer: React.FC<ControlsPlayerProps> = ({
               )}
             </div>
           </div>
-          <span className="px-3 text-white font-bold">{currentTime}</span>{" "}
+          <div className="flex">
+            <span className="px-3 text-white font-bold">{currentTime}</span>
+            <FullscreenIcon className="mx-3" onClick={onFullscreen} />
+          </div>
         </div>
       </div>
     </div>

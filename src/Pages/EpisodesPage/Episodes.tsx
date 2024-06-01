@@ -26,7 +26,7 @@ const Episodes = () => {
           WebkitMaskImage: "linear-gradient (to top, transparent, black)",
         }}
       />
-      <div className="px-6">
+      <div className=" lg:px-6 md: px-2">
         <div className="flex-col">
           <h1 className="text-left text-white">{dataResInfo?.title}</h1>
           <h1 className="text-left py-2 font-semibold text-white lg:text-6xl sm: text-2xl">

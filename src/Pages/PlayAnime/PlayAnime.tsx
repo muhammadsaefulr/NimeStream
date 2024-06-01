@@ -1,10 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import fetchApi from "../../handleRequest/action";
 import ControlsPlayer from "../../components/videoPlayer/ControlsPlayer";
 import ReactPlayer from "react-player";
+import screenfull from "screenfull";
 
-interface Params {
+interface Params extends Record<string, string | undefined> {
   source: string;
 }
 
@@ -30,7 +31,15 @@ const PlayAnime: React.FC = () => {
     buffer: true,
   });
 
-  const { playing, muted, played, seeking, buffer } = videoState;
+  const [controlsVisible, setControlsVisible] = useState(true);
+
+  const handleClickFullScreen = () => {
+    if (screenfull.isEnabled && videoPlayerRef.current) {
+      screenfull.request(videoPlayerRef.current.wrapper);
+    }
+  };
+
+  const { playing, muted, played, seeking } = videoState;
 
   const formatTime = (time: number) => {
     if (isNaN(time)) {
@@ -48,8 +57,12 @@ const PlayAnime: React.FC = () => {
     }
   };
 
-  const currentTime = formatTime(videoPlayerRef.current ? videoPlayerRef.current.getCurrentTime() : 0);
-  const duration = formatTime(videoPlayerRef.current ? videoPlayerRef.current.getDuration() : 0);
+  const currentTime = formatTime(
+    videoPlayerRef.current ? videoPlayerRef.current.getCurrentTime() : 0
+  );
+  const duration = formatTime(
+    videoPlayerRef.current ? videoPlayerRef.current.getDuration() : 0
+  );
 
   const playPauseHandler = () => {
     setVideoState({ ...videoState, playing: !videoState.playing });
@@ -57,19 +70,17 @@ const PlayAnime: React.FC = () => {
 
   const rewindHandler = () => {
     if (videoPlayerRef.current) {
-      videoPlayerRef.current.seekTo(videoPlayerRef.current.getCurrentTime() - 5);
+      videoPlayerRef.current.seekTo(
+        videoPlayerRef.current.getCurrentTime() - 5
+      );
     }
   };
 
   const fastForwardHandler = () => {
     if (videoPlayerRef.current) {
-      videoPlayerRef.current.seekTo(videoPlayerRef.current.getCurrentTime() + 10);
-    }
-  };
-
-  const progressHandler = (state: { played: number }) => {
-    if (!seeking) {
-      setVideoState({ ...videoState, played: state.played });
+      videoPlayerRef.current.seekTo(
+        videoPlayerRef.current.getCurrentTime() + 10
+      );
     }
   };
 
@@ -88,6 +99,67 @@ const PlayAnime: React.FC = () => {
     setVideoState({ ...videoState, muted: !videoState.muted });
   };
 
+  const progressHandler = (state) => {
+    if (!seeking) {
+      setVideoState({ ...videoState, ...state });
+    }
+  };
+
+  const mouseMoveHandler = () => {
+    if (controlRef.current) {
+      controlRef.current.style.display = "block";
+    }
+    setControlsVisible(true);
+  };
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (controlsVisible && !screenfull.isFullscreen) {
+      timer = setTimeout(() => {
+        if (controlRef.current) {
+          controlRef.current.style.display = "none";
+        }
+      }, 3000);
+    }
+
+    return () => clearTimeout(timer);
+  }, [controlsVisible]);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (screenfull.isFullscreen) {
+        if (controlRef.current) {
+          controlRef.current.style.display = "block";
+        }
+      } else {
+        if (controlRef.current) {
+          controlRef.current.style.display = "none";
+        }
+      }
+    };
+
+    if (screenfull.isEnabled) {
+      screenfull.on("change", handleFullscreenChange);
+    }
+
+    return () => {
+      if (screenfull.isEnabled) {
+        screenfull.off("change", handleFullscreenChange);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (controlsVisible) {
+      timer = setTimeout(() => {
+        setControlsVisible(false);
+      }, 3000);
+    }
+
+    return () => clearTimeout(timer);
+  }, [controlsVisible]);
+
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -97,7 +169,10 @@ const PlayAnime: React.FC = () => {
   return (
     <>
       <section>
-        <div className="flex justify-center relative">
+        <div
+          className="flex justify-center relative"
+          onMouseMove={mouseMoveHandler}
+        >
           <div className="w-full rounded-md">
             <ReactPlayer
               ref={videoPlayerRef}
@@ -110,20 +185,28 @@ const PlayAnime: React.FC = () => {
               url="/assets/videos/simplescreenrecorder-2024-02-19_20.54.32.mp4"
             />
           </div>
-          <ControlsPlayer
-            onPlayPause={playPauseHandler}
-            onForward={fastForwardHandler}
-            onRewind={rewindHandler}
-            playing={playing}
-            played={played}
-            onSeek={seekHandler}
-            onSeekMouseUp={seekMouseUpHandler}
-            mute={muted}
-            controlRef={controlRef}
-            currentTime={currentTime}
-            duration={duration}
-            onMute={muteHandler}
-          />
+          <div
+            ref={controlRef}
+            className={`transition-opacity duration-500 ease-in-out ${
+              controlsVisible ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <ControlsPlayer
+              onPlayPause={playPauseHandler}
+              onForward={fastForwardHandler}
+              onRewind={rewindHandler}
+              playing={playing}
+              played={played}
+              onSeek={seekHandler}
+              onSeekMouseUp={seekMouseUpHandler}
+              mute={muted}
+              ControlRef={controlRef}
+              currentTime={currentTime}
+              duration={duration}
+              onFullscreen={handleClickFullScreen}
+              onMute={muteHandler}
+            />
+          </div>
         </div>
       </section>
     </>
