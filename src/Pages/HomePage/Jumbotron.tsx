@@ -19,7 +19,7 @@ const Jumbotron = () => {
                 className="w-full h-full object-cover absolute top-0 left-0 -z-10"
                 alt="Tailwind CSS Carousel component"
               />
-              <div className="absolute inset-0 bg-black opacity-30"></div>
+              <div className="absolute inset-0 bg-black opacity-60"></div>
               <div className="absolute inset-0 flex flex-col justify-center z-10 text-white xl:mx-16 lg: mx-8">
                 <h1 className="font-semibold mb-2 lg: text-2xl">{data.title}</h1>
                 <p className="py-2 lg:text-lg lg:h-32 lg:w-2/3 xl: w-full overflow-y-scroll h-1/3 text-md">

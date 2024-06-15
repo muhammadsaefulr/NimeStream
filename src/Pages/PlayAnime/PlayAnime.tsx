@@ -46,11 +46,11 @@ const PlayAnime = () => {
                 className="btn bg-green-400 text-white"
                 href={data.links.replace(
                   "https://otakudesu.cloud",
-                  "http://localhost:5173/play"
+                  "/play"
                 )}
               >
                 <button key={keyId}>
-                  {data.title.replace("Episode ", "")}
+                  {data.title.match(/\d+/)}
                 </button>
               </a>
             ))}
@@ -80,7 +80,7 @@ const PlayAnime = () => {
             <option disabled value="">
               Select Resolution
             </option>
-            {dataResSelectable?.map((data, keyId) => (
+            {dataResSelectable?.slice(0,3).map((data, keyId) => (
               <option key={keyId} value={data.links}>
                 {data.res}
               </option>

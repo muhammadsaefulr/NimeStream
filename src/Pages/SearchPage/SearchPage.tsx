@@ -1,31 +1,64 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import { Play, Star } from "lucide-react";
-import fetchApi from "../../handleRequest/action";
 import PostSkeleton from "@src/components/SkeletonLoad/PostSkeleton";
+import { useSearchStore } from "@src/state/zustandStore";
+import { Play, Star } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-const LatestAnime = () => {
+const SearchPage = () => {
+  const [dataSearch, setDataSearch] = useState<dataResponseApi[] | null>([
+    {
+      title: "",
+      AnimeLinks: "",
+      status: "",
+      rating: "",
+      thumbnailImage: "",
+      genre: [{ genreLinks: "", titleGenre: "" }],
+    },
+  ]);
+
+  const [dataSearchQuery, setDataSearchQuery] = useState("");
+  const datasearchStore = useSearchStore((state) => state.dataSearch);
+  const dataSearchQueryStore = useSearchStore((state) => state.title);
+
+  useEffect(() => {
+    setDataSearch(datasearchStore);
+    console.log(datasearchStore);
+  }, [datasearchStore]);
+
+  useEffect(() => {
+    setDataSearchQuery(dataSearchQueryStore);
+  }, [dataSearchQueryStore]);
+
   const [previewImageIdx, setPreviewImageIdx] = useState<number | null>(null);
 
-  
-  const { data: dataRes, isLoading } = fetchApi.useReqAnimeLatest();
-
-  if (isLoading) {
+  if (!dataSearchQuery) {
     return (
       <div className="font-semibold text-white text-2xl">
+        <div className="flex gap-x-2">
+          <span className="loading loading-ring loading-lg"></span>
+          <p className="text-md">Loading..</p>
+        </div>
         <PostSkeleton length={10} />
       </div>
     );
   }
 
+  if(dataSearchQuery.length < 1){
+    return (
+      <div className="flex justify-center h-screen item-center">
+        <p>Data Tidak Ditemukan !</p>
+      </div>
+    )
+  }
+
   return (
     <div>
       <h1 className="font-semibold text-xl dark:text-white light:text-black">
-        Latest Updated Anime
+        Result For {dataSearchQuery}
       </h1>
       <div className="py-6 grid xl:grid-cols-5 gap-4 lg: grid-cols-2 items-center mx-auto mt-6 ">
-        {dataRes?.map((data, idx) => (
-          <div key={idx + 1} className="">
+        {dataSearch?.map((data, idx) => (
+          <div key={idx} className="">
             <div
               onMouseEnter={() => setPreviewImageIdx(idx)}
               onMouseLeave={() => setPreviewImageIdx(null)}
@@ -41,7 +74,7 @@ const LatestAnime = () => {
                 alt=""
                 width={339}
                 height={330}
-                src={data.thumbnailUrl}
+                src={data.thumbnailImage}
               />
 
               <div
@@ -50,14 +83,8 @@ const LatestAnime = () => {
                 }`}
               ></div>
               <div className="relative inset-0 -translate-y-4 w-full">
-                <p className="font-medium px-2 text-white">{data.latestEp}</p>
                 <p className="text-white px-2 flex gap-x-2 pt-1">
-                  {/[A-Z]/g.test(data.updateAnime) === true ? (
-                    "Setiap "
-                  ) : (
-                    <Star />
-                  )}
-                  {data.updateAnime}
+                  <Star /> {data.rating}
                 </p>
               </div>
               <div
@@ -70,7 +97,7 @@ const LatestAnime = () => {
                 </h1>
                 <Link
                   className="pt-6"
-                  to={`/watch/${data.url.replace(
+                  to={`/watch/${data.AnimeLinks.replace(
                     "https://otakudesu.cloud/",
                     ""
                   )}`}
@@ -89,4 +116,4 @@ const LatestAnime = () => {
   );
 };
 
-export default LatestAnime;
+export default SearchPage;

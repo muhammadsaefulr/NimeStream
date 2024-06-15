@@ -2,9 +2,12 @@ import { Menu, Search } from "lucide-react";
 import Sidebar from "../Sidebar/Sidebar";
 import { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
+import { useSearchStore } from "@src/state/zustandStore";
 
 const Navbar = () => {
   const [searchData, setSearchData] = useState("");
+  const updateDataSearchQuery = useSearchStore((state) => state.updateQuery);
+  const updateDataSearch = useSearchStore((state) => state.updateSearchData);
 
   useEffect(() => {
     const getData = setTimeout(() => {
@@ -12,13 +15,14 @@ const Navbar = () => {
         axios
           .get(`/main/api/service/otakudesu/search?q=${searchData}`)
           .then((response) => {
-            console.log(response.data)
+            console.log(response.data);
+            updateDataSearchQuery(searchData);
+            updateDataSearch(response.data?.data);
           });
       }
-    }, 2000);
+    }, 3000);
 
     return () => clearTimeout(getData);
-
   }, [searchData]);
 
   return (
@@ -56,8 +60,13 @@ const Navbar = () => {
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               setSearchData(event.target.value)
             }
-            onSubmit={() => {console.log("hello world")}}
-            onClick={() => {console.log("click")}}
+            onSubmit={() => {
+              console.log("hello world");
+            }}
+            onClick={() => {
+              updateDataSearch([]);
+              updateDataSearchQuery("");
+            }}
           />
         </div>
         <div className="drawer-side">

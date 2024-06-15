@@ -23,7 +23,7 @@ export function nessecaryData(): JumbotronData[] {
     },
     {
       title: "One piece",
-      linkSource: "/anime/opiece-sub-indo/",
+      linkSource: "/watch/anime/opiece-sub-indo/",
       image:
         "https://flowgpt.com/_next/image?url=https%3A%2F%2Fimage-cdn.flowgpt.com%2Fprompt%2FySo6P-wdNIYPAszYZ3CSI%2F1692267931899&w=2250&q=75",
       description:

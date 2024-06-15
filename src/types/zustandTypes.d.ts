@@ -1,5 +1,0 @@
-
-
-// type SearchDataStoreAction = {
-//     updateSearchResult: () 
-// }

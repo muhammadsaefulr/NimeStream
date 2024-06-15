@@ -4,7 +4,7 @@ import { Play, Star } from "lucide-react";
 import fetchApi from "../../handleRequest/action";
 import PostSkeleton from "@src/components/SkeletonLoad/PostSkeleton";
 
-const Ongoing = () => {
+const GenrePage = () => {
   const [previewImageIdx, setPreviewImageIdx] = useState<number | null>(null);
 
   const { data: dataRes, isLoading } = fetchApi.useReqAnimeLatest();
@@ -88,4 +88,4 @@ const Ongoing = () => {
   );
 };
 
-export default Ongoing;
+export default GenrePage;

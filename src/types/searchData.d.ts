@@ -6,6 +6,7 @@ interface dataGenreResponseApi {
 interface dataResponseApi {
     title: string,
     AnimeLinks: string,
+    thumbnailImage: string,
     status: string,
     rating: string,
     genre: dataGenreResponseApi[]
@@ -20,4 +21,5 @@ interface ResponseApi {
 
 type searchDataZustandStore = {
     title: string,
+    dataSearch: dataResponseApi[]
 }
