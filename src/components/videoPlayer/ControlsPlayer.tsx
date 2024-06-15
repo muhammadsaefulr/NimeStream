@@ -40,7 +40,6 @@ const ControlsPlayer: React.FC<ControlsPlayerProps> = ({
   mute,
   onFullscreen,
   // duration,
-  sourceTitle,
   currentTime,
 }) => {
   const handleSeekChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,9 +63,9 @@ const ControlsPlayer: React.FC<ControlsPlayerProps> = ({
             className="text-white hover:bg-green-400 rounded-md"
           />
         </Link>
-        <p className="text-white font-semibold text-lg">{sourceTitle}</p>
+        {/* <p className="text-white font-semibold text-lg">{sourceTitle}</p> */}
       </div>
-      <div className="middle-container flex justify-center items-center gap-x-4 content-center h-5/6 md: pt-6">
+      <div className="middle-container flex justify-center items-center gap-x-4 content-center h-5/6 md: pt-3">
         <div>
           <FastForwardIcon
             onDoubleClick={onRewind}
@@ -92,7 +91,7 @@ const ControlsPlayer: React.FC<ControlsPlayerProps> = ({
           />
         </div>
       </div>
-      <div className="bottom__container pt-10 md:p">
+      <div className="bottom__container lg:pt-10 md: pt-0">
         <div className="flex items-center mx-2 ">
           <input
             type="range"

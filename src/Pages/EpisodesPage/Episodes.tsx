@@ -2,15 +2,20 @@ import { useParams } from "react-router";
 import { Star } from "lucide-react";
 import EpisodeList from "./EpisodeList";
 import fetchApi from "../../handleRequest/action";
+import { EpisodeListSkeleton } from "@src/components/SkeletonLoad/EpisodeListSkeleton";
 
 const Episodes = () => {
   const { source } = useParams();
 
-  const {data: dataRes, isLoading} = fetchApi.useReqAnimeEpsList(source)
+  const { data: dataRes, isLoading } = fetchApi.useReqAnimeEpsList(source);
   const dataResInfo = dataRes?.data?.dataInfo[0];
 
-  if(isLoading){
-    return <div>Loading...</div>
+  if (isLoading) {
+    return (
+      <div>
+        <EpisodeListSkeleton />
+      </div>
+    );
   }
 
   return (

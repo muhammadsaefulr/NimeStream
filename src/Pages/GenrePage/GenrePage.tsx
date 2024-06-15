@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import React, { useState } from "react";
 import { Play, Star } from "lucide-react";
 import fetchApi from "../../handleRequest/action";
+import PostSkeleton from "@src/components/SkeletonLoad/PostSkeleton";
 
 const Ongoing = () => {
   const [previewImageIdx, setPreviewImageIdx] = useState<number | null>(null);
@@ -9,7 +10,11 @@ const Ongoing = () => {
   const { data: dataRes, isLoading } = fetchApi.useReqAnimeLatest();
 
   if(isLoading){
-    return <div className="font-semibold text-white text-2xl">Loading...</div>
+    return (
+      <div className="font-semibold text-white text-2xl">
+      <PostSkeleton length={10} />
+    </div>
+    )
   }
   
   return (

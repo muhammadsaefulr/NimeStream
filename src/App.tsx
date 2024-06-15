@@ -4,11 +4,9 @@ import Navbar from "./components/Navbar/Navbar";
 import Home from "./Pages/HomePage/Home";
 import Ongoing from "./Pages/GenrePage/GenrePage";
 import Episodes from "./Pages/EpisodesPage/Episodes";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import PlayAnime from "./Pages/PlayAnime/PlayAnime";
-
-const queryClient = new QueryClient();
+import ReactQueryClientProviders from "./components/ReactQueryClientProvider/ReactClientQueryProvider";
 
 const App = () => {
   const location = useLocation();
@@ -21,9 +19,10 @@ const App = () => {
       setShowNavbar(true);
     }
   }, [location.pathname]);
+
   return (
     <div>
-      <QueryClientProvider client={queryClient}>
+      <ReactQueryClientProviders>
         {showNavbar && (
           <nav className="z-50 relative">
             <Navbar />
@@ -39,7 +38,7 @@ const App = () => {
         <Routes>
           <Route path="/play/episode/:source" element={<PlayAnime />} />
         </Routes>
-      </QueryClientProvider>
+      </ReactQueryClientProviders>
     </div>
   );
 };

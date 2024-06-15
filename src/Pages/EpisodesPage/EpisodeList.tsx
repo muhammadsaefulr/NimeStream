@@ -6,7 +6,7 @@ const EpisodeList = ({ dataEps }) => {
   return (
     <div>
       <div className="pt-4">
-        <div className="max-h-64 overflow-auto">
+        <div className="max-h-64 overflow-auto no-scrollbar">
           <div className="grid gap-x-4">
             {dataEps?.reverse().map((data, idx) => {
               return (

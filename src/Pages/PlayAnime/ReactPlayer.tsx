@@ -1,13 +1,7 @@
+import ControlsPlayer from "@src/components/videoPlayer/ControlsPlayer";
 import React, { useRef, useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import fetchApi from "../../handleRequest/action";
-import ControlsPlayer from "../../components/videoPlayer/ControlsPlayer";
 import ReactPlayer from "react-player";
 import screenfull from "screenfull";
-
-interface Params extends Record<string, string | undefined> {
-  source: string;
-}
 
 interface VideoState {
   playing: boolean;
@@ -17,14 +11,22 @@ interface VideoState {
   buffer: boolean;
 }
 
-const PlayerVideo: React.FC = () => {
-  const { source } = useParams<Params>();
+
+interface PlayerVideoProps {
+  LinksSource: string;
+}
+
+const PlayerVideo: React.FC<PlayerVideoProps> = ({LinksSource}) => {
   const controlRef = useRef<HTMLDivElement>(null);
-  const { data: respData, isLoading } = fetchApi.reqPlayAnime(source);
+  const [linksVideoPlay, setLinkSource] = useState("")
   const videoPlayerRef = useRef<ReactPlayer | null>(null);
 
+  useEffect(() => {
+    setLinkSource(LinksSource)
+  }, [LinksSource])
+
   const [videoState, setVideoState] = useState<VideoState>({
-    playing: true,
+    playing: false,
     muted: false,
     played: 0,
     seeking: false,
@@ -136,12 +138,6 @@ const PlayerVideo: React.FC = () => {
     return () => clearTimeout(timer);
   }, [controlsVisible]);
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  console.log("data playable videos: ", respData);
-
   return (
     <>
       <section>
@@ -149,17 +145,17 @@ const PlayerVideo: React.FC = () => {
           className="flex justify-center relative"
           onMouseMove={mouseMoveHandler}
         >
-          <div className="w-full rounded-md">
+          <div className="lg:w-[850px] md: w-full">
             <ReactPlayer
               ref={videoPlayerRef}
               controls={screenfull.isFullscreen}
-              className="rounded-full object-cover m-0 p-0"
-              width="100%"
-              height="100%"
+              className="rounded-full object-cover m-0 p-0 w-full"
+              width="450"
+              height="450"
               playing={playing}
               onProgress={progressHandler}
               muted={muted}
-              url="/assets/videos/simplescreenrecorder-2024-02-19_20.54.32.mp4"
+              url={linksVideoPlay}
             />
           </div>
           <div

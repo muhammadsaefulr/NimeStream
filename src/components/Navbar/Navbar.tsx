@@ -12,12 +12,13 @@ const Navbar = () => {
         axios
           .get(`/main/api/service/otakudesu/search?q=${searchData}`)
           .then((response) => {
-            console.log(response.data);
+            console.log(response.data)
           });
       }
     }, 2000);
 
     return () => clearTimeout(getData);
+
   }, [searchData]);
 
   return (
