@@ -9,10 +9,11 @@ import ReactQueryClientProviders from "./components/ReactQueryClientProvider/Rea
 import SearchPage from "./Pages/SearchPage/SearchPage";
 import { useSearchStore } from "./state/zustandStore";
 import GenrePage from "./Pages/GenrePage/GenrePage";
+import Footer from "./components/Footer/Footer";
 
 const App = () => {
   const location = useLocation();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const datasearchQuery = useSearchStore((state) => state.title);
   const [showNavbar, setShowNavbar] = useState(true);
@@ -22,7 +23,7 @@ const App = () => {
       if (location.pathname.startsWith("/search")) {
         console.log("at data search query: ", datasearchQuery);
       } else {
-        navigate("/search")
+        navigate("/search");
       }
     }
   }, [datasearchQuery]);
@@ -39,14 +40,14 @@ const App = () => {
     <div>
       <ReactQueryClientProviders>
         {showNavbar && (
-          <nav className="z-50 relative">
+          <nav className="z-50 relative flex">
             <Navbar />
           </nav>
         )}
         <div className="z-10 p-3">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/genre/:source" element={<GenrePage />} />
+            <Route path="/genre/:genreTitle/page/:id" element={<GenrePage />} />
             <Route path="/watch/anime/:source" element={<Episodes />} />
             <Route path="/search" element={<SearchPage />} />
           </Routes>
@@ -55,6 +56,9 @@ const App = () => {
           <Route path="/play/episode/:source" element={<PlayAnime />} />
         </Routes>
       </ReactQueryClientProviders>
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 };

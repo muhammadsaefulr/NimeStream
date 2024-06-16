@@ -16,7 +16,7 @@ const Sidebar = () => {
 
   const dataSidebar: MenuItem[] = [
     { key: 1, icon: "Home", title: "Home", link: "/" },
-    { key: 2, icon: "CalendarRange", title: "Ongoing", link: "/ongoing" },
+    { key: 2, icon: "CalendarRange", title: "Ongoing", link: "/" },
   ];
 
   return (

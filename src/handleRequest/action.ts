@@ -44,6 +44,20 @@ class fetchApi {
       },
     });
   };
+  static useReqGenreAnime = (
+    genreTitle: string | undefined,
+    id: string | undefined
+  ) => {
+    return useQuery({
+      queryKey: ["getLatestPage"],
+      queryFn: async () => {
+        const response = await axios.get(
+          `/main/api/service/otakudesu/genre/${genreTitle}/${id}`
+        );
+        return response.data.data;
+      },
+    });
+  };
 }
 
 export default fetchApi;

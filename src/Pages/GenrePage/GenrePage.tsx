@@ -1,26 +1,33 @@
-import { Link } from "react-router-dom";
-import React, { useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { Play, Star } from "lucide-react";
 import fetchApi from "../../handleRequest/action";
 import PostSkeleton from "@src/components/SkeletonLoad/PostSkeleton";
 
 const GenrePage = () => {
   const [previewImageIdx, setPreviewImageIdx] = useState<number | null>(null);
+  const { genreTitle, id } = useParams();
+  const { data: dataRes, isLoading } = fetchApi.useReqGenreAnime(
+    genreTitle,
+    id
+  );
 
-  const { data: dataRes, isLoading } = fetchApi.useReqAnimeLatest();
+  useEffect(() => {
+    console.log(dataRes);
+  }, [dataRes]);
 
-  if(isLoading){
+  if (isLoading) {
     return (
       <div className="font-semibold text-white text-2xl">
-      <PostSkeleton length={10} />
-    </div>
-    )
+        <PostSkeleton length={10} />
+      </div>
+    );
   }
-  
+
   return (
     <div>
       <h1 className="pt-6 font-semibold text-xl dark:text-white light:text-black">
-        Genre Dummy
+        Genre {genreTitle} List
       </h1>
       <div className="py-6 grid xl:grid-cols-5 gap-4 lg: grid-cols-2 items-center mx-auto mt-6 ">
         {dataRes?.map((data, idx) => (
@@ -49,14 +56,10 @@ const GenrePage = () => {
                 }`}
               ></div>
               <div className="relative inset-0 -translate-y-4 w-full">
-                <p className="font-medium px-2 text-white">{data.latestEp}</p>
+                <p className="font-medium px-2 text-white">{data?.latestEp}</p>
                 <p className="text-white px-2 flex gap-x-2 pt-1">
-                  {/[A-Z]/g.test(data.updateAnime) === true ? (
-                    "Setiap "
-                  ) : (
-                    <Star />
-                  )}
-                  {data.updateAnime}
+                  <Star />
+                  {data?.rating}
                 </p>
               </div>
               <div
@@ -65,11 +68,11 @@ const GenrePage = () => {
                 } xl:pt-24 lg: pt-8`}
               >
                 <h1 className="text-center font-semibold xl:text-lg lg:text-xs">
-                  {data.title}
+                  {data?.title}
                 </h1>
                 <Link
                   className="pt-6"
-                  to={`/watch/${data.url.replace(
+                  to={`/watch/${data?.url?.replace(
                     "https://otakudesu.cloud/",
                     ""
                   )}`}

@@ -29,7 +29,7 @@ const Jumbotron = () => {
                 <div className="genre pt-2 gap-2 lg:flex gap-x-2 xl: grid grid-cols-3">
                   {data.genre.map((data, idx) => {
                     return (
-                      <Link to="">
+                      <Link to={`/genre/${data.title}/page/1`}>
                         <button
                           key={idx}
                           className="rounded-full border-2 border-b-slate-100 px-2 transition ease-in hover:bg-white hover:text-gray-400"

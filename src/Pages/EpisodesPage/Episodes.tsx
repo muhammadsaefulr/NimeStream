@@ -3,6 +3,7 @@ import { Star } from "lucide-react";
 import EpisodeList from "./EpisodeList";
 import fetchApi from "../../handleRequest/action";
 import { EpisodeListSkeleton } from "@src/components/SkeletonLoad/EpisodeListSkeleton";
+import { Link } from "react-router-dom";
 
 const Episodes = () => {
   const { source } = useParams();
@@ -58,9 +59,11 @@ const Episodes = () => {
           <div className="flex flex-wrap gap-3">
             {dataResInfo?.genre.map((data) => (
               <div>
-                <button className="rounded-md border-white border-2 px-2">
-                  {data.genre}
-                </button>
+                <Link to={`/genre/${data.genre}/page/1`}>
+                  <button className="rounded-md border-white border-2 px-2">
+                    {data.genre}
+                  </button>
+                </Link>
               </div>
             ))}
           </div>
