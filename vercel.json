@@ -1,0 +1,9 @@
+{
+    "rewrites": [
+      {
+        "source": "/otakudesu/:path*",
+        "destination": "https://sate.msaepul.my.id/:path*"
+      }
+    ]
+  }
+  
