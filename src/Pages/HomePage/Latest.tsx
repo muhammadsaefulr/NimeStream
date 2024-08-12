@@ -24,7 +24,7 @@ const LatestAnime = () => {
         Latest Updated Anime
       </h1>
       <div className="py-6 grid xl:grid-cols-5 gap-4 lg: grid-cols-2 items-center mx-auto mt-6 ">
-        {dataRes?.map((data, idx) => (
+        {dataRes?.map((data: any, idx: number) => (
           <div key={idx + 1} className="">
             <div
               onMouseEnter={() => setPreviewImageIdx(idx)}

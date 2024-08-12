@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Play, Star } from "lucide-react";
 import fetchApi from "../../handleRequest/action";
 import PostSkeleton from "@src/components/SkeletonLoad/PostSkeleton";
@@ -30,7 +30,7 @@ const GenrePage = () => {
         Genre {genreTitle} List
       </h1>
       <div className="py-6 grid xl:grid-cols-5 gap-4 lg: grid-cols-2 items-center mx-auto mt-6 ">
-        {dataRes?.map((data, idx) => (
+        {dataRes?.map((data: any, idx: number) => (
           <div key={idx + 1} className="">
             <div
               onMouseEnter={() => setPreviewImageIdx(idx)}

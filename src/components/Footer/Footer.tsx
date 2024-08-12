@@ -1,5 +1,3 @@
-import React from "react";
-
 const Footer = () => {
   return (
     <footer className="text-gray-300 body-font">
@@ -38,10 +36,14 @@ const Footer = () => {
             </h2>
             <nav className="list-none mb-10">
               <li>
-                <a className="text-gray-400 hover:text-gray-800">Ongoing Anime</a>
+                <a className="text-gray-400 hover:text-gray-800">
+                  Ongoing Anime
+                </a>
               </li>
               <li>
-                <a className="text-gray-400 hover:text-gray-800">Complete Anime</a>
+                <a className="text-gray-400 hover:text-gray-800">
+                  Complete Anime
+                </a>
               </li>
             </nav>
           </div>
