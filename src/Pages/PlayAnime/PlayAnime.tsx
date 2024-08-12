@@ -9,8 +9,12 @@ const PlayAnime = () => {
   const [urlSource, setUrlSource] = useState("");
 
   const { data: respData, isLoading } = fetchApi.reqPlayAnime(source);
-  console.log("data raw: ", respData);
+
   const dataResSelectable = respData?.resultPdrain;
+
+  useEffect(() => {
+    console.log(respData)
+  }, [respData])
 
   useEffect(() => {
     console.log(urlSource);
@@ -41,7 +45,7 @@ const PlayAnime = () => {
             Semua Episode
           </h2>
           <ul className="overflow-scroll lg:grid grid-cols-3 gap-6 max-h-96 md: flex justify-between gap-x-3 pt-4 no-scrollbar">
-            {respData?.epsList.toReversed().map((data, keyId) => (
+            {respData?.epsList?.map((data: any, keyId: any) => (
               <a
                 className="btn bg-green-400 text-white"
                 href={data.links.replace(
@@ -80,7 +84,7 @@ const PlayAnime = () => {
             <option disabled value="">
               Select Resolution
             </option>
-            {dataResSelectable?.slice(0,3).map((data, keyId) => (
+            {dataResSelectable?.slice(0,3).map((data: any, keyId: any) => (
               <option key={keyId} value={data.links}>
                 {data.res}
               </option>

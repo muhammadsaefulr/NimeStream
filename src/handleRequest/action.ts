@@ -6,7 +6,7 @@ class fetchApi {
     return useQuery({
       queryKey: ["getLatestPage"],
       queryFn: async () => {
-        const response = await axios.get("/main/api/service/otakudesu");
+        const response = await axios.get("/otakudesu/homepage");
         return response.data.data;
       },
     });
@@ -16,10 +16,17 @@ class fetchApi {
       queryKey: ["getAnimeEpsList"],
       queryFn: async () => {
         const response = await axios.get(
-          `/main/api/service/otakudesu/watch/${urlSourcePath}`
+          `/otakudesu/getanime/${urlSourcePath}`,
+          {
+            headers: {
+              'Cache-Control': 'no-cache'
+            }
+          }
         );
         return response.data;
       },
+      staleTime: 0,
+      refetchOnWindowFocus: true,
     });
   };
   static reqPlayAnime = (urlSourcePath: string | undefined) => {
@@ -27,10 +34,18 @@ class fetchApi {
       queryKey: ["getPlayAnime"],
       queryFn: async () => {
         const response = await axios.get(
-          `/main/api/service/otakudesu/play/${urlSourcePath}`
+          `/otakudesu/animesource/${urlSourcePath}`,
+          {
+            headers: {
+              'Cache-Control': 'no-cache'
+            }
+          }
         );
-        return response.data.responseData;
+        
+        return response.data.data;
       },
+      staleTime: 0,
+      refetchOnWindowFocus: true,
     });
   };
   static reqSearchAnime = (inputValue: string | undefined) => {
@@ -38,7 +53,7 @@ class fetchApi {
       queryKey: ["getSearchAnime"],
       queryFn: async () => {
         const response = await axios.get(
-          `/main/api/service/otakudesu/search?q=${inputValue}`
+          `/otakudesu/searchanime/judul?q=${inputValue}`
         );
         return response.data.data;
       },
@@ -49,10 +64,10 @@ class fetchApi {
     id: string | undefined
   ) => {
     return useQuery({
-      queryKey: ["getLatestPage"],
+      queryKey: ["getAnimeGenre"],
       queryFn: async () => {
         const response = await axios.get(
-          `/main/api/service/otakudesu/genre/${genreTitle}/${id}`
+          `/otakudesu/animegenre/${genreTitle}/pages/${id}`
         );
         return response.data.data;
       },

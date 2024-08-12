@@ -9,7 +9,8 @@ const Episodes = () => {
   const { source } = useParams();
 
   const { data: dataRes, isLoading } = fetchApi.useReqAnimeEpsList(source);
-  const dataResInfo = dataRes?.data?.dataInfo[0];
+  const dataResInfo = dataRes?.data?.AnimeInfo[0];
+  console.log(dataRes)
 
   if (isLoading) {
     return (
@@ -57,7 +58,7 @@ const Episodes = () => {
         </div>
         <div className="container lg:w-1/3 md:w-full pt-6">
           <div className="flex flex-wrap gap-3">
-            {dataResInfo?.genre.map((data) => (
+            {dataResInfo?.genre.map((data: any) => (
               <div>
                 <Link to={`/genre/${data.genre}/page/1`}>
                   <button className="rounded-md border-white border-2 px-2">
@@ -84,7 +85,7 @@ const Episodes = () => {
               Hingga {dataResInfo?.totalEps} Episode
             </h1>
           </div>
-          <EpisodeList dataEps={dataRes?.data.dataEps} />
+          <EpisodeList dataEps={dataRes?.data.AnimeEps} />
         </section>
       </div>
     </div>

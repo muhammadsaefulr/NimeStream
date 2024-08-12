@@ -13,7 +13,7 @@ const Navbar = () => {
     const getData = setTimeout(() => {
       if (searchData) {
         axios
-          .get(`/main/api/service/otakudesu/search?q=${searchData}`)
+          .get(`/otakudesu/searchanime?judul=${searchData}`)
           .then((response) => {
             console.log(response.data);
             updateDataSearchQuery(searchData);
