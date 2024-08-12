@@ -11,19 +11,18 @@ interface VideoState {
   buffer: boolean;
 }
 
-
 interface PlayerVideoProps {
   LinksSource: string;
 }
 
-const PlayerVideo: React.FC<PlayerVideoProps> = ({LinksSource}) => {
+const PlayerVideo: React.FC<PlayerVideoProps> = ({ LinksSource }) => {
   const controlRef = useRef<HTMLDivElement>(null);
-  const [linksVideoPlay, setLinkSource] = useState("")
+  const [linksVideoPlay, setLinkSource] = useState(LinksSource);
   const videoPlayerRef = useRef<ReactPlayer | null>(null);
 
   useEffect(() => {
-    setLinkSource(LinksSource)
-  }, [LinksSource])
+    setLinkSource(LinksSource);
+  }, [LinksSource]);
 
   const [videoState, setVideoState] = useState<VideoState>({
     playing: false,
@@ -41,8 +40,6 @@ const PlayerVideo: React.FC<PlayerVideoProps> = ({LinksSource}) => {
     }
   };
 
-  const { playing, muted, played, seeking } = videoState;
-
   const formatTime = (time: number) => {
     if (isNaN(time)) {
       return "00:00";
@@ -52,138 +49,119 @@ const PlayerVideo: React.FC<PlayerVideoProps> = ({LinksSource}) => {
     const hours = date.getUTCHours();
     const minutes = date.getUTCMinutes();
     const seconds = date.getUTCSeconds().toString().padStart(2, "0");
-    if (hours) {
-      return `${hours}:${minutes.toString().padStart(2, "0")}:${seconds}`;
-    } else {
-      return `${minutes}:${seconds}`;
-    }
+    return hours ? `${hours}:${minutes.toString().padStart(2, "0")}:${seconds}` : `${minutes}:${seconds}`;
   };
 
-  const currentTime = formatTime(
-    videoPlayerRef.current ? videoPlayerRef.current.getCurrentTime() : 0
-  );
-  const duration = formatTime(
-    videoPlayerRef.current ? videoPlayerRef.current.getDuration() : 0
-  );
+  const currentTime = formatTime(videoPlayerRef.current ? videoPlayerRef.current.getCurrentTime() : 0);
+  const duration = formatTime(videoPlayerRef.current ? videoPlayerRef.current.getDuration() : 0);
 
   const playPauseHandler = () => {
-    setVideoState({ ...videoState, playing: !videoState.playing });
+    setVideoState((prevState) => ({ ...prevState, playing: !prevState.playing }));
   };
 
   const rewindHandler = () => {
     if (videoPlayerRef.current) {
-      videoPlayerRef.current.seekTo(
-        videoPlayerRef.current.getCurrentTime() - 5
-      );
+      videoPlayerRef.current.seekTo(videoPlayerRef.current.getCurrentTime() - 5);
     }
   };
 
   const fastForwardHandler = () => {
     if (videoPlayerRef.current) {
-      videoPlayerRef.current.seekTo(
-        videoPlayerRef.current.getCurrentTime() + 10
-      );
+      videoPlayerRef.current.seekTo(videoPlayerRef.current.getCurrentTime() + 10);
     }
   };
 
   const seekHandler = (value: number) => {
-    setVideoState({ ...videoState, played: value });
+    setVideoState((prevState) => ({ ...prevState, played: value }));
   };
 
   const seekMouseUpHandler = (value: number) => {
-    setVideoState({ ...videoState, seeking: false });
+    setVideoState((prevState) => ({ ...prevState, seeking: false }));
     if (videoPlayerRef.current) {
       videoPlayerRef.current.seekTo(value);
     }
   };
 
   const muteHandler = () => {
-    setVideoState({ ...videoState, muted: !videoState.muted });
+    setVideoState((prevState) => ({ ...prevState, muted: !prevState.muted }));
   };
 
   const progressHandler = (state: any) => {
-    if (!seeking) {
-      setVideoState({ ...videoState, ...state });
+    if (!videoState.seeking) {
+      setVideoState((prevState) => ({ ...prevState, ...state }));
     }
   };
 
-  const mouseMoveHandler = () => {
+  const showControls = () => {
+    setControlsVisible(true);
     if (controlRef.current) {
       controlRef.current.style.display = "block";
     }
-    setControlsVisible(true);
+  };
+
+  const hideControls = () => {
+    setControlsVisible(false);
+    if (controlRef.current) {
+      controlRef.current.style.display = "none";
+    }
   };
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (controlsVisible) {
-      timer = setTimeout(() => {
-        if (controlRef.current) {
-          controlRef.current.style.display = "none";
-        }
-      }, 3000);
+      timer = setTimeout(hideControls, 3000);
     }
-
     return () => clearTimeout(timer);
   }, [controlsVisible]);
 
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (controlsVisible) {
-      timer = setTimeout(() => {
-        setControlsVisible(false);
-      }, 3000);
-    }
-
-    return () => clearTimeout(timer);
-  }, [controlsVisible]);
+  const handleTouchStart = () => showControls();
+  const handleMouseMove = () => showControls();
 
   return (
-    <>
-      <section>
-        <div
-          className="flex justify-center relative"
-          onMouseMove={mouseMoveHandler}
-        >
-          <div className="lg:w-[850px] md: w-full">
-            <ReactPlayer
-              ref={videoPlayerRef}
-              controls={screenfull.isFullscreen}
-              className="rounded-full object-cover m-0 p-0 w-full"
-              width="450"
-              height="450"
-              playing={playing}
-              onProgress={progressHandler}
-              muted={muted}
-              url={linksVideoPlay}
-            />
-          </div>
-          <div
-            ref={controlRef}
-            className={`transition-opacity duration-500 ease-in-out ${
-              controlsVisible ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <ControlsPlayer
-              onPlayPause={playPauseHandler}
-              onForward={fastForwardHandler}
-              onRewind={rewindHandler}
-              playing={playing}
-              played={played}
-              onSeek={seekHandler}
-              onSeekMouseUp={seekMouseUpHandler}
-              mute={muted}
-              ControlRef={controlRef}
-              currentTime={currentTime}
-              duration={duration}
-              onFullscreen={handleClickFullScreen}
-              onMute={muteHandler}
-              sourceTitle={"dummy"}
-            />
-          </div>
+    <section>
+      <div
+        className="flex justify-center relative"
+        onMouseMove={handleMouseMove}
+        onTouchStart={handleTouchStart} 
+      >
+        <div className="lg:w-[850px] md: w-full">
+          <ReactPlayer
+            ref={videoPlayerRef}
+            controls={screenfull.isFullscreen}
+            className="rounded-full object-cover m-0 p-0 w-full"
+            width="450"
+            height="450"
+            playing={videoState.playing}
+            onProgress={progressHandler}
+            muted={videoState.muted}
+            url={linksVideoPlay}
+          />
         </div>
-      </section>
-    </>
+        <div
+          ref={controlRef}
+          className={`transition-opacity duration-500 ease-in-out ${
+            controlsVisible ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <ControlsPlayer
+            onPlayPause={playPauseHandler}
+            onForward={fastForwardHandler}
+            onRewind={rewindHandler}
+            playing={videoState.playing}
+            played={videoState.played}
+            onSeek={seekHandler}
+            onSeekMouseUp={seekMouseUpHandler}
+            mute={videoState.muted}
+            ControlRef={controlRef}
+            currentTime={currentTime}
+            duration={duration}
+            onFullscreen={handleClickFullScreen}
+            onMute={muteHandler}
+            sourceTitle={"dummy"}
+          />
+        </div>
+      </div>
+    </section>
   );
 };
 

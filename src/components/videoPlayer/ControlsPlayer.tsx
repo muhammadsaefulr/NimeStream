@@ -98,7 +98,7 @@ const ControlsPlayer: React.FC<ControlsPlayerProps> = ({
             min={0}
             max={100}
             value={played * 100}
-            className="w-full"
+            className="w-full sm: hidden"
             onChange={handleSeekChange}
             onMouseUp={handleSeekMouseUp}
           />
