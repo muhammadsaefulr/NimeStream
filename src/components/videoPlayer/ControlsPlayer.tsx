@@ -25,7 +25,8 @@ interface ControlsPlayerProps {
   currentTime: string;
   ControlRef: React.RefObject<HTMLDivElement>;
   duration: string;
-  sourceTitle: string | undefined;
+  isLoading: boolean;
+  isError: boolean;
 }
 
 const ControlsPlayer: React.FC<ControlsPlayerProps> = ({
@@ -40,6 +41,8 @@ const ControlsPlayer: React.FC<ControlsPlayerProps> = ({
   mute,
   onFullscreen,
   // duration,
+  isLoading,
+  isError,
   currentTime,
 }) => {
   const handleSeekChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,30 +69,38 @@ const ControlsPlayer: React.FC<ControlsPlayerProps> = ({
         {/* <p className="text-white font-semibold text-lg">{sourceTitle}</p> */}
       </div>
       <div className="middle-container flex justify-center items-center gap-x-4 content-center h-5/6 md: pt-3">
-        <div>
-          <FastForwardIcon
-            onDoubleClick={onRewind}
-            size={50}
-            className="rotate-180 text-left text-white hover:bg-green-400 bg-opacity-50 p-2 rounded-full transition delay-75 ease-in"
-          />
-        </div>
-        <div
-          className="icon__btn text-white rounded-full p-2 hover:bg-green-400 transition ease-in"
-          onClick={onPlayPause}
-        >
-          {playing ? (
-            <PauseIcon size={40} fontSize="medium" />
-          ) : (
-            <PlayIcon size={40} fontSize="medium" />
-          )}
-        </div>
-        <div>
-          <FastForwardIcon
-            onDoubleClick={onForward}
-            size={50}
-            className="text-white hover:bg-green-400 bg-opacity-50 p-2 rounded-full transition delay-75 ease-in"
-          />
-        </div>
+        {isError ? (
+          <p>Stream Source Error Occoured !</p>
+        ) : isLoading ? (
+          <span className="loading loading-spinner loading-md"></span>
+        ) : (
+          <div className="flex gap-x-2">
+            <div>
+              <FastForwardIcon
+                onDoubleClick={onRewind}
+                size={50}
+                className="rotate-180 text-left text-white hover:bg-green-400 bg-opacity-50 p-2 rounded-full transition delay-75 ease-in"
+              />
+            </div>
+            <div
+              className="icon__btn text-white rounded-full p-2 hover:bg-green-400 transition ease-in"
+              onClick={onPlayPause}
+            >
+              {playing ? (
+                <PauseIcon size={40} fontSize="medium" />
+              ) : (
+                <PlayIcon size={40} fontSize="medium" />
+              )}
+            </div>
+            <div>
+              <FastForwardIcon
+                onDoubleClick={onForward}
+                size={50}
+                className="text-white hover:bg-green-400 bg-opacity-50 p-2 rounded-full transition delay-75 ease-in"
+              />
+            </div>
+          </div>
+        )}
       </div>
       <div className="bottom__container lg:pt-10 md: pt-0">
         <div className="flex items-center mx-2 ">

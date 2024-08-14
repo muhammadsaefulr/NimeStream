@@ -9,28 +9,44 @@ interface VideoState {
   played: number;
   seeking: boolean;
   buffer: boolean;
+  isLoading: boolean;
+  isError: boolean;
 }
 
 interface PlayerVideoProps {
   LinksSource: string;
+  AnimeName: string;
 }
 
-const PlayerVideo: React.FC<PlayerVideoProps> = ({ LinksSource }) => {
+const PlayerVideo: React.FC<PlayerVideoProps> = ({
+  LinksSource,
+  AnimeName,
+}) => {
   const controlRef = useRef<HTMLDivElement>(null);
   const [linksVideoPlay, setLinkSource] = useState(LinksSource);
   const videoPlayerRef = useRef<ReactPlayer | null>(null);
+
+  const [videoState, setVideoState] = useState<VideoState>({
+    playing: false,
+    muted: false,
+    played: 0.0,
+    seeking: false,
+    buffer: true,
+    isLoading: true,
+    isError: false,
+  });
 
   useEffect(() => {
     setLinkSource(LinksSource);
   }, [LinksSource]);
 
-  const [videoState, setVideoState] = useState<VideoState>({
-    playing: false,
-    muted: false,
-    played: 0,
-    seeking: false,
-    buffer: true,
-  });
+  // useEffect(() => {
+  //   const savedPlayedTime = localStorage.getItem(
+  //     `${AnimeName}-lastWatchedInSeconds`
+  //   );
+
+  //   console.log('Last watched time: ',savedPlayedTime)
+  // }, []);
 
   const [controlsVisible, setControlsVisible] = useState(true);
 
@@ -49,25 +65,38 @@ const PlayerVideo: React.FC<PlayerVideoProps> = ({ LinksSource }) => {
     const hours = date.getUTCHours();
     const minutes = date.getUTCMinutes();
     const seconds = date.getUTCSeconds().toString().padStart(2, "0");
-    return hours ? `${hours}:${minutes.toString().padStart(2, "0")}:${seconds}` : `${minutes}:${seconds}`;
+    return hours
+      ? `${hours}:${minutes.toString().padStart(2, "0")}:${seconds}`
+      : `${minutes}:${seconds}`;
   };
 
-  const currentTime = formatTime(videoPlayerRef.current ? videoPlayerRef.current.getCurrentTime() : 0);
-  const duration = formatTime(videoPlayerRef.current ? videoPlayerRef.current.getDuration() : 0);
+  const currentTime = formatTime(
+    videoPlayerRef.current ? videoPlayerRef.current.getCurrentTime() : 0
+  );
+  const duration = formatTime(
+    videoPlayerRef.current ? videoPlayerRef.current.getDuration() : 0
+  );
 
   const playPauseHandler = () => {
-    setVideoState((prevState) => ({ ...prevState, playing: !prevState.playing }));
+    setVideoState((prevState) => ({
+      ...prevState,
+      playing: !prevState.playing,
+    }));
   };
 
   const rewindHandler = () => {
     if (videoPlayerRef.current) {
-      videoPlayerRef.current.seekTo(videoPlayerRef.current.getCurrentTime() - 5);
+      videoPlayerRef.current.seekTo(
+        videoPlayerRef.current.getCurrentTime() - 5
+      );
     }
   };
 
   const fastForwardHandler = () => {
     if (videoPlayerRef.current) {
-      videoPlayerRef.current.seekTo(videoPlayerRef.current.getCurrentTime() + 10);
+      videoPlayerRef.current.seekTo(
+        videoPlayerRef.current.getCurrentTime() + 10
+      );
     }
   };
 
@@ -88,7 +117,10 @@ const PlayerVideo: React.FC<PlayerVideoProps> = ({ LinksSource }) => {
 
   const progressHandler = (state: any) => {
     if (!videoState.seeking) {
-      setVideoState((prevState) => ({ ...prevState, ...state }));
+      setVideoState((prevState) => ({
+        ...prevState,
+        played: state.playedSeconds,
+      }));
     }
   };
 
@@ -122,7 +154,7 @@ const PlayerVideo: React.FC<PlayerVideoProps> = ({ LinksSource }) => {
       <div
         className="flex justify-center relative"
         onMouseMove={handleMouseMove}
-        onTouchStart={handleTouchStart} 
+        onTouchStart={handleTouchStart}
       >
         <div className="lg:w-[850px] md: w-full">
           <ReactPlayer
@@ -135,6 +167,9 @@ const PlayerVideo: React.FC<PlayerVideoProps> = ({ LinksSource }) => {
             onProgress={progressHandler}
             muted={videoState.muted}
             url={linksVideoPlay}
+            progressInterval={1000}
+            onError={() => setVideoState({ ...videoState, isError: true })}
+            onReady={() => setVideoState({ ...videoState, isLoading: false })}
           />
         </div>
         <div
@@ -144,6 +179,8 @@ const PlayerVideo: React.FC<PlayerVideoProps> = ({ LinksSource }) => {
           }`}
         >
           <ControlsPlayer
+            isError={videoState.isError}
+            isLoading={videoState.isLoading}
             onPlayPause={playPauseHandler}
             onForward={fastForwardHandler}
             onRewind={rewindHandler}
@@ -157,7 +194,6 @@ const PlayerVideo: React.FC<PlayerVideoProps> = ({ LinksSource }) => {
             duration={duration}
             onFullscreen={handleClickFullScreen}
             onMute={muteHandler}
-            sourceTitle={"dummy"}
           />
         </div>
       </div>

@@ -38,14 +38,14 @@ const PlayAnime = () => {
     <section className="mx-3 pb-6 ">
       <div className="lg:flex md:block">
         <div>
-          <PlayerVideo LinksSource={urlSource} />
+          <PlayerVideo AnimeName={respData?.title} LinksSource={urlSource} />
         </div>
         <div className="lg:mx-4 visible lg:w-1/3 md: unvisible md: w-full">
           <h2 className="text-white font-semibold lg:pt-0 md: pt-3">
             Semua Episode
           </h2>
           <ul className="overflow-scroll lg:grid grid-cols-3 gap-6 max-h-96 md: flex justify-between gap-x-3 pt-4 no-scrollbar">
-            {respData?.epsList?.map((data: any, keyId: any) => (
+            {respData?.epsList?.slice().reverse().map((data: any, keyId: any) => (
               <a
                 className="btn bg-green-400 text-white"
                 href={data.links.replace(

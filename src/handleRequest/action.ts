@@ -59,6 +59,19 @@ class fetchApi {
       },
     });
   };
+
+  static useGetStreamingSource = (
+    sourceLinks: string | undefined,
+  ) => {
+    return useQuery({
+      queryKey: ["getStreamSource"],
+      queryFn: async () => {
+        const response = await axios.get(`${sourceLinks}`)
+        return response
+      }
+    })
+  }
+
   static useReqGenreAnime = (
     genreTitle: string | undefined,
     id: string | undefined

@@ -10,7 +10,6 @@ const Episodes = () => {
 
   const { data: dataRes, isLoading } = fetchApi.useReqAnimeEpsList(source);
   const dataResInfo = dataRes?.data?.AnimeInfo[0];
-  console.log(dataRes)
 
   if (isLoading) {
     return (
