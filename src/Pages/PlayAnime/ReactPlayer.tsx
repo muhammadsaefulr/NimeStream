@@ -15,12 +15,10 @@ interface VideoState {
 
 interface PlayerVideoProps {
   LinksSource: string;
-  AnimeName: string;
 }
 
 const PlayerVideo: React.FC<PlayerVideoProps> = ({
   LinksSource,
-  AnimeName,
 }) => {
   const controlRef = useRef<HTMLDivElement>(null);
   const [linksVideoPlay, setLinkSource] = useState(LinksSource);

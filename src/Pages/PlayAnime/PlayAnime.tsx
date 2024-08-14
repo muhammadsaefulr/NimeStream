@@ -38,7 +38,7 @@ const PlayAnime = () => {
     <section className="mx-3 pb-6 ">
       <div className="lg:flex md:block">
         <div>
-          <PlayerVideo AnimeName={respData?.title} LinksSource={urlSource} />
+          <PlayerVideo LinksSource={urlSource} />
         </div>
         <div className="lg:mx-4 visible lg:w-1/3 md: unvisible md: w-full">
           <h2 className="text-white font-semibold lg:pt-0 md: pt-3">
