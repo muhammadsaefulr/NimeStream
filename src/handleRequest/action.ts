@@ -19,8 +19,8 @@ class fetchApi {
           `/otakudesu/getanime/${urlSourcePath}`,
           {
             headers: {
-              'Cache-Control': 'no-cache'
-            }
+              "Cache-Control": "no-cache",
+            },
           }
         );
         return response.data;
@@ -37,11 +37,11 @@ class fetchApi {
           `/otakudesu/animesource/${urlSourcePath}`,
           {
             headers: {
-              'Cache-Control': 'no-cache'
-            }
+              "Cache-Control": "no-cache",
+            },
           }
         );
-        
+
         return response.data.data;
       },
       staleTime: 0,
@@ -60,17 +60,15 @@ class fetchApi {
     });
   };
 
-  static useGetStreamingSource = (
-    sourceLinks: string | undefined,
-  ) => {
+  static useGetStreamingSource = (sourceLinks: string | undefined) => {
     return useQuery({
       queryKey: ["getStreamSource"],
       queryFn: async () => {
-        const response = await axios.get(`${sourceLinks}`)
-        return response
-      }
-    })
-  }
+        const response = await axios.get(`${sourceLinks}`);
+        return response;
+      },
+    });
+  };
 
   static useReqGenreAnime = (
     genreTitle: string | undefined,
@@ -82,6 +80,19 @@ class fetchApi {
         const response = await axios.get(
           `/otakudesu/animegenre/${genreTitle}/pages/${id}`
         );
+        return response.data.data;
+      },
+    });
+  };
+
+  static useReqAnimeOngoing = (pageNum: string | undefined) => {
+    return useQuery({
+      queryKey: ["getAnimeOngoing"],
+      queryFn: async () => {
+        const response = await axios.get(
+          `/otakudesu/ongoing-anime/page/${pageNum}`
+        );
+
         return response.data.data;
       },
     });

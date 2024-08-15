@@ -10,6 +10,7 @@ import SearchPage from "./Pages/SearchPage/SearchPage";
 import { useSearchStore } from "./state/zustandStore";
 import GenrePage from "./Pages/GenrePage/GenrePage";
 import Footer from "./components/Footer/Footer";
+import AnimeOngoing from "./Pages/AnimeOngoing/AnimeOngoing";
 
 const App = () => {
   const location = useLocation();
@@ -48,6 +49,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/genre/:genreTitle/page/:id" element={<GenrePage />} />
+            <Route path="/ongoing/page/:pageNum" element={<AnimeOngoing/>} />
             <Route path="/watch/anime/:source" element={<Episodes />} />
             <Route path="/search" element={<SearchPage />} />
           </Routes>

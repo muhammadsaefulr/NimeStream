@@ -4,22 +4,20 @@ import {
   ArrowBigLeft,
   ArrowBigRight,
   ArrowRight,
+  Calendar,
   Play,
   Star,
 } from "lucide-react";
 import fetchApi from "../../handleRequest/action";
 import PostSkeleton from "@src/components/SkeletonLoad/PostSkeleton";
 
-const GenrePage = () => {
+const AnimeOngoing = () => {
   const [previewImageIdx, setPreviewImageIdx] = useState<number | null>(null);
-  const { genreTitle, id } = useParams();
-  const { data: dataRes, isLoading } = fetchApi.useReqGenreAnime(
-    genreTitle,
-    id
-  );
+  const { pageNum } = useParams();
+  const { data: dataRes, isLoading } = fetchApi.useReqAnimeOngoing(pageNum);
 
-  const nextPage = parseInt(id ?? "", 10) + 1;
-  const prevPage = parseInt(id ?? "", 0) > 0 ? parseInt(id ?? "", 0) - 1 : 0;
+  const nextPage = parseInt(pageNum ?? "", 10) + 1;
+  const prevPage = parseInt(pageNum ?? "", 0) > 0 ? parseInt(pageNum ?? "", 0) - 1 : 0;
 
   useEffect(() => {
     console.log(dataRes);
@@ -37,25 +35,25 @@ const GenrePage = () => {
     <div>
       <div className="flex justify-between ">
         <h1 className="pt-6 font-semibold text-xl dark:text-white light:text-black">
-          Genre {genreTitle} List
+          Anime Ongoing Musim Ini
         </h1>
-        <div className="flex gap-x-2 mt-6 mx-3">
+        <div className="flex gap-x-4 mt-6 mx-3">
           <a
-            href={`/genre/${genreTitle}/page/${prevPage}`}
-            className=" rounded-md text-white hover:bg-green-400"
+            href={`/ongoing/page/${prevPage}`}
+            className="rounded-md text-white hover:bg-green-400"
           >
             <ArrowBigLeft size={35} />
           </a>
           <p className="pt-1 font-semibold text-white">Page</p>
           <a
-            href={`/genre/${genreTitle}/page/${nextPage}`}
-            className=" rounded-md text-white hover:bg-green-400"
+            href={`/ongoing/page/${nextPage}`}
+            className="rounded-md text-white hover:bg-green-400"
           >
             <ArrowBigRight size={35} />
           </a>
         </div>
       </div>
-      <div className="py-6 grid xl:grid-cols-5 gap-4 lg: grid-cols-2 items-center mx-auto mt-6 ">
+      <div className="py-4 grid xl:grid-cols-5 gap-4 lg: grid-cols-2 items-center mx-auto mt-4 ">
         {dataRes?.map((data: any, idx: number) => (
           <div key={idx + 1} className="">
             <div
@@ -73,7 +71,7 @@ const GenrePage = () => {
                 alt=""
                 width={339}
                 height={330}
-                src={data.thumbnailUrl}
+                src={data.thumbnailImage}
               />
 
               <div
@@ -89,8 +87,8 @@ const GenrePage = () => {
                     : "Ongoing"}
                 </p>
                 <p className="text-white px-2 flex gap-x-2 pt-1">
-                  <Star />
-                  {data?.rating}
+                  <Calendar />
+                  {data?.updateAnime}
                 </p>
               </div>
               <div
@@ -103,7 +101,7 @@ const GenrePage = () => {
                 </h1>
                 <Link
                   className="pt-6"
-                  to={`/watch/${data?.urlAnime?.replace(
+                  to={`/watch/${data?.AnimeLinks?.replace(
                     "https://otakudesu.cloud/",
                     ""
                   )}`}
@@ -122,4 +120,4 @@ const GenrePage = () => {
   );
 };
 
-export default GenrePage;
+export default AnimeOngoing;
