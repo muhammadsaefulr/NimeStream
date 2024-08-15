@@ -1,9 +1,8 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link,  useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   ArrowBigLeft,
   ArrowBigRight,
-  ArrowRight,
   Play,
   Star,
 } from "lucide-react";

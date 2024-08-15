@@ -1,12 +1,10 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   ArrowBigLeft,
   ArrowBigRight,
-  ArrowRight,
   Calendar,
   Play,
-  Star,
 } from "lucide-react";
 import fetchApi from "../../handleRequest/action";
 import PostSkeleton from "@src/components/SkeletonLoad/PostSkeleton";
