@@ -13,7 +13,7 @@ const GenrePage = () => {
   );
 
   useEffect(() => {
-    console.log(dataRes);
+    // console.log(dataRes);
   }, [dataRes]);
 
   if (isLoading) {

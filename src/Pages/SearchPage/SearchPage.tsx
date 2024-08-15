@@ -22,7 +22,7 @@ const SearchPage = () => {
 
   useEffect(() => {
     setDataSearch(datasearchStore);
-    console.log(datasearchStore);
+    // console.log(datasearchStore);
   }, [datasearchStore]);
 
   useEffect(() => {

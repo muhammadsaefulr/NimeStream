@@ -15,7 +15,7 @@ const Navbar = () => {
         axios
           .get(`/otakudesu/searchanime?judul=${searchData}`)
           .then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             updateDataSearchQuery(searchData);
             updateDataSearch(response.data?.data);
           });
@@ -61,7 +61,7 @@ const Navbar = () => {
               setSearchData(event.target.value)
             }
             onSubmit={() => {
-              console.log("hello world");
+              // console.log("hello world");
             }}
             onClick={() => {
               updateDataSearch([]);

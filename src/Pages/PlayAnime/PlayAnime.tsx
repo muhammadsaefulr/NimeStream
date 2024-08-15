@@ -13,11 +13,11 @@ const PlayAnime = () => {
   const dataResSelectable = respData?.resultPdrain;
 
   useEffect(() => {
-    console.log(respData)
+    // console.log(respData)
   }, [respData])
 
   useEffect(() => {
-    console.log(urlSource);
+    // console.log(urlSource);
   }, [urlSource]);
 
   useEffect(() => {
@@ -45,15 +45,16 @@ const PlayAnime = () => {
             Semua Episode
           </h2>
           <ul className="overflow-scroll lg:grid grid-cols-3 gap-6 max-h-96 md: flex justify-between gap-x-3 pt-4 no-scrollbar">
-            {respData?.epsList?.slice().reverse().map((data: any, keyId: any) => (
+            {respData?.epsList?.slice().reverse().map((data: any, idx: any) => (
               <a
+                key={idx}
                 className="btn bg-green-400 text-white"
                 href={data.links.replace(
                   "https://otakudesu.cloud",
                   "/play"
                 )}
               >
-                <button key={keyId}>
+                <button>
                   {data.title.match(/\d+/)}
                 </button>
               </a>

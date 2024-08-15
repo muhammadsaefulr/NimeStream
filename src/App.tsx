@@ -21,7 +21,7 @@ const App = () => {
   useEffect(() => {
     if (datasearchQuery) {
       if (location.pathname.startsWith("/search")) {
-        console.log("at data search query: ", datasearchQuery);
+        // console.log("at data search query: ", datasearchQuery);
       } else {
         navigate("/search");
       }

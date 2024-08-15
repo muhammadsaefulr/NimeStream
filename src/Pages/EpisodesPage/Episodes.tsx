@@ -57,8 +57,8 @@ const Episodes = () => {
         </div>
         <div className="container lg:w-1/3 md:w-full pt-6">
           <div className="flex flex-wrap gap-3">
-            {dataResInfo?.genre.map((data: any) => (
-              <div>
+            {dataResInfo?.genre.map((data: any, idx: number) => (
+              <div key={idx}>
                 <Link to={`/genre/${data.genre}/page/1`}>
                   <button className="rounded-md border-white border-2 px-2">
                     {data.genre}
