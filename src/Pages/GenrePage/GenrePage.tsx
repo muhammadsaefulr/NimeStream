@@ -72,7 +72,7 @@ const GenrePage = () => {
                 </h1>
                 <Link
                   className="pt-6"
-                  to={`/watch/${data?.url?.replace(
+                  to={`/watch/${data?.urlAnime?.replace(
                     "https://otakudesu.cloud/",
                     ""
                   )}`}
