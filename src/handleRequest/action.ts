@@ -48,15 +48,21 @@ class fetchApi {
       refetchOnWindowFocus: true,
     });
   };
+
   static reqSearchAnime = (inputValue: string | undefined) => {
     return useQuery({
-      queryKey: ["getSearchAnime"],
+      queryKey: ["getSearchAnime", inputValue],
       queryFn: async () => {
         const response = await axios.get(
-          `/otakudesu/searchanime/judul?q=${inputValue}`
+          `/otakudesu/searchanime?judul=${inputValue}`
         );
+
+        console.log(response)
+
         return response.data.data;
       },
+      enabled: !!inputValue,
+      refetchOnWindowFocus: false,
     });
   };
 

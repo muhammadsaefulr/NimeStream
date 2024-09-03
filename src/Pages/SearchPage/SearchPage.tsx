@@ -1,10 +1,13 @@
 import PostSkeleton from "@src/components/SkeletonLoad/PostSkeleton";
-import { useSearchStore } from "@src/state/zustandStore";
+import fetchApi from "@src/handleRequest/action";
 import { Play, Star } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 const SearchPage = () => {
+  let [searchParams] = useSearchParams();
+  let judul = searchParams.get("judul") as string;
+
   const [dataSearch, setDataSearch] = useState<dataResponseApi[] | null>([
     {
       title: "",
@@ -16,22 +19,15 @@ const SearchPage = () => {
     },
   ]);
 
-  const [dataSearchQuery, setDataSearchQuery] = useState("");
-  const datasearchStore = useSearchStore((state) => state.dataSearch);
-  const dataSearchQueryStore = useSearchStore((state) => state.title);
+  const { data: dataSearchApi, isLoading } = fetchApi.reqSearchAnime(judul);
 
   useEffect(() => {
-    setDataSearch(datasearchStore);
-    // console.log(datasearchStore);
-  }, [datasearchStore]);
-
-  useEffect(() => {
-    setDataSearchQuery(dataSearchQueryStore);
-  }, [dataSearchQueryStore]);
+    setDataSearch(dataSearchApi);
+  }, [judul, dataSearchApi]);
 
   const [previewImageIdx, setPreviewImageIdx] = useState<number | null>(null);
 
-  if (!dataSearchQuery) {
+  if (isLoading) {
     return (
       <div className="font-semibold text-white text-2xl">
         <div className="flex gap-x-2">
@@ -43,18 +39,18 @@ const SearchPage = () => {
     );
   }
 
-  if(dataSearchQuery.length < 1){
+  if (dataSearch && dataSearch.length < 0) {
     return (
       <div className="flex justify-center h-screen item-center">
-        <p>Data Tidak Ditemukan !</p>
+        <p className="font-medium text-xl py-12">Data Tidak Ditemukan !</p>
       </div>
-    )
+    );
   }
 
   return (
     <div>
       <h1 className="font-semibold text-xl dark:text-white light:text-black">
-        Result For {dataSearchQuery}
+        Result For {judul}
       </h1>
       <div className="py-6 grid xl:grid-cols-5 gap-4 lg: grid-cols-2 items-center mx-auto mt-6 ">
         {dataSearch?.map((data, idx) => (
