@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
 const SearchPage = () => {
-  let [searchParams] = useSearchParams();
-  let judul = searchParams.get("judul") as string;
+  const [searchParams] = useSearchParams();
+  const judul = searchParams.get("judul") as string;
 
   const [dataSearch, setDataSearch] = useState<dataResponseApi[] | null>([
     {

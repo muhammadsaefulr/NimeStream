@@ -1,4 +1,4 @@
-import { Menu, Play } from "lucide-react";
+import { Menu } from "lucide-react";
 import Sidebar from "../Sidebar/index";
 import SearchBarAnime from "../SearchBarAnime";
 
