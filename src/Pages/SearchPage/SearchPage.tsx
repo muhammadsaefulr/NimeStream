@@ -1,3 +1,4 @@
+import { Search } from "@src/components/SearchBarMobile";
 import PostSkeleton from "@src/components/SkeletonLoad/PostSkeleton";
 import fetchApi from "@src/handleRequest/action";
 import { Play, Star } from "lucide-react";
@@ -49,6 +50,9 @@ const SearchPage = () => {
 
   return (
     <div>
+      <div className="py-6 mb-3">
+        <Search/>
+      </div>
       <h1 className="font-semibold text-xl dark:text-white light:text-black">
         Result For {judul}
       </h1>

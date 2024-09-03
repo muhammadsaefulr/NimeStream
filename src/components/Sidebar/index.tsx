@@ -1,5 +1,5 @@
 import { Home, CalendarRange } from "lucide-react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
   const iconMap = {
@@ -42,12 +42,15 @@ const Sidebar = () => {
           return (
             <li
               key={keyId}
-              className="flex gap-x-4 hover:border-l-8 border-green-500 rounded-lg"
+              className="flex gap-x-4 rounded-lg"
             >
-              <Link to={{ pathname: data.link }}>
+              <NavLink
+                className={({ isActive }) => (isActive ? "border-l-8 border-green-500" : "")}
+                to={{ pathname: data.link }}
+              >
                 <IconComponent />
                 <p className="text-md font-medium">{data.title}</p>
-              </Link>
+              </NavLink>
             </li>
           );
         })}

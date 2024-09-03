@@ -1,6 +1,6 @@
 import { Menu } from "lucide-react";
 import Sidebar from "../Sidebar/index";
-import SearchBarAnime from "../SearchBarAnime";
+import SearchBarAnime from "../SearchBarDesktop";
 
 const Navbar = () => {
   return (

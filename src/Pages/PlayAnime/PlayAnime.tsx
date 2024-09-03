@@ -3,6 +3,7 @@ import PlayerVideo from "./ReactPlayer";
 import fetchApi from "@src/handleRequest/action";
 import { useEffect, useState } from "react";
 import LoadingBars from "@src/components/LoadingBars/LoadingBars";
+import { Link } from "react-router-dom";
 
 const PlayAnime = () => {
   const { source } = useParams();
@@ -13,11 +14,7 @@ const PlayAnime = () => {
   const dataResSelectable = respData?.resultPdrain;
 
   useEffect(() => {
-    // console.log(respData)
-  }, [respData])
-
-  useEffect(() => {
-    // console.log(urlSource);
+    console.log(urlSource);
   }, [urlSource]);
 
   useEffect(() => {
@@ -25,6 +22,23 @@ const PlayAnime = () => {
       setUrlSource(dataResSelectable[0]?.links);
     }
   }, [dataResSelectable]);
+
+  if (dataResSelectable && dataResSelectable == "") {
+    return (
+      <div className="flex min-h-screen justify-center translate-y-1/3">
+        <div className="block">
+          <p className=" text-2xl font-medium text-center mx-3">
+            Error getting video streaming source
+          </p>
+          <Link to="/">
+            <p className="pt-2 text-md text-white underline font-medium text-center mx-3">
+             Kembali
+            </p>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -45,20 +59,18 @@ const PlayAnime = () => {
             Semua Episode
           </h2>
           <ul className="overflow-scroll lg:grid grid-cols-3 gap-6 max-h-96 md: flex justify-between gap-x-3 pt-4 no-scrollbar">
-            {respData?.epsList?.slice().reverse().map((data: any, idx: any) => (
-              <a
-                key={idx}
-                className="btn bg-green-400 text-white"
-                href={data.links.replace(
-                  "https://otakudesu.cloud",
-                  "/play"
-                )}
-              >
-                <button>
-                  {data.title.match(/\d+/)}
-                </button>
-              </a>
-            ))}
+            {respData?.epsList
+              ?.slice()
+              .reverse()
+              .map((data: any, idx: any) => (
+                <a
+                  key={idx}
+                  className="btn bg-green-400 text-white"
+                  href={data.links.replace("https://otakudesu.cloud", "/play")}
+                >
+                  <button>{data.title.match(/\d+/)}</button>
+                </a>
+              ))}
           </ul>
         </div>
       </div>
@@ -85,7 +97,7 @@ const PlayAnime = () => {
             <option disabled value="">
               Select Resolution
             </option>
-            {dataResSelectable?.slice(0,3).map((data: any, keyId: any) => (
+            {dataResSelectable?.slice(0, 3).map((data: any, keyId: any) => (
               <option key={keyId} value={data.links}>
                 {data.res}
               </option>

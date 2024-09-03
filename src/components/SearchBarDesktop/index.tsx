@@ -18,7 +18,7 @@ const SearchBarAnime = () => {
 
   return (
     <div className="flex">
-      <div className={`mx-2 cursor-pointer ${isSearchClicked ? "bg-green-400" : "bg-green-400"} rounded-full transition ease-in hover:bg-green-400 p-2 bg-transparent`} onClick={() => setIsSearchClicked(!isSearchClicked)}>
+      <div className={`mx-2 flex cursor-pointer ${isSearchClicked ? "bg-green-400" : "bg-green-400"} rounded-full transition ease-in hover:bg-green-400 p-2 bg-transparent lg: invisible sm:visible`} onClick={() => setIsSearchClicked(!isSearchClicked)}>
         <SearchIcon size={25} />
       </div>
 

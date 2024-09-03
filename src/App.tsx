@@ -58,7 +58,7 @@ const App = () => {
           <Route path="/play/episode/:source" element={<PlayAnime />} />
         </Routes>
       </ReactQueryClientProviders>
-      <footer>
+      <footer className="relative bottom-0 right-0 left-0">
         <Footer />
       </footer>
     </div>
