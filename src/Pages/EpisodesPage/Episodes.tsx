@@ -11,7 +11,7 @@ const Episodes = () => {
   const { data: dataRes, isLoading } = fetchApi.useReqAnimeEpsList(source);
   const dataResInfo = dataRes?.data?.AnimeInfo[0];
 
-  if(!dataRes.data?.AnimeInfo) return {
+  if(dataRes.data?.AnimeInfo == null) return {
     (
       <div>
         <p>Data Not Available</p>
