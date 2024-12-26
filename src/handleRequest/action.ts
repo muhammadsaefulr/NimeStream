@@ -15,13 +15,9 @@ class fetchApi {
     return useQuery({
       queryKey: ["getAnimeEpsList"],
       queryFn: async () => {
+        console.log("react query params:", urlSourcePath)
         const response = await axios.get(
-          `/otakudesu/getanime/${urlSourcePath}`,
-          {
-            headers: {
-              "Cache-Control": "no-cache",
-            },
-          }
+          `/otakudesu/getanime/${urlSourcePath}/`
         );
         return response.data;
       },
@@ -34,7 +30,7 @@ class fetchApi {
       queryKey: ["getPlayAnime"],
       queryFn: async () => {
         const response = await axios.get(
-          `/otakudesu/animesource/${urlSourcePath}`,
+          `/otakudesu/animesource/${urlSourcePath}/`,
           {
             headers: {
               "Cache-Control": "no-cache",

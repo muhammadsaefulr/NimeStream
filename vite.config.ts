@@ -6,7 +6,7 @@ import tsconfigPaths from "vite-tsconfig-paths"
 export default defineConfig({
   server: {
     proxy: {
-      "/otakudesu": "https://sate.msaepul.my.id/"
+      "/otakudesu": "http://localhost:3000/"
     }
   },
   plugins: [react(), tsconfigPaths()],

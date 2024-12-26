@@ -4,25 +4,45 @@ import EpisodeList from "./EpisodeList";
 import fetchApi from "../../handleRequest/action";
 import { EpisodeListSkeleton } from "@src/components/SkeletonLoad/EpisodeListSkeleton";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+interface dataResInterfaces {
+  thumbnailImage: string,
+  title: string,
+  rating: string,
+  status: string,
+  studio: string,
+  releaseDate: string,
+  genre: [
+    
+  ],
+  sinopsis: string,
+  totalEps: string
+
+}
 
 const Episodes = () => {
   const { source } = useParams();
+  const [dataResInfo, setDataRes] = useState<dataResInterfaces | null>(null);
 
   const { data: dataRes, isLoading } = fetchApi.useReqAnimeEpsList(source);
-  const dataResInfo = dataRes?.data?.AnimeInfo[0];
 
-  if (dataRes.data?.AnimeInfo == null) {
-    return (
-      <div>
-        <p>Data Not Available</p>
-      </div>
-    );
-  }
+  useEffect(() => {
+    setDataRes(dataRes?.data?.AnimeInfo[0])
+  }, [dataRes])
 
   if (isLoading) {
     return (
       <div>
         <EpisodeListSkeleton />
+      </div>
+    );
+  }
+
+  if (dataResInfo == null) {
+    return (
+      <div>
+        <p>Data Not Available</p>
       </div>
     );
   }
