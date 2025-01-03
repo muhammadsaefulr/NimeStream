@@ -11,6 +11,7 @@ class fetchApi {
       },
     });
   };
+  
   static useReqAnimeEpsList = (urlSourcePath: string | undefined) => {
     return useQuery({
       queryKey: ["getAnimeEpsList"],
