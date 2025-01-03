@@ -18,7 +18,12 @@ class fetchApi {
       queryFn: async () => {
         console.log("react query params:", urlSourcePath)
         const response = await axios.get(
-          `/otakudesu/getanime/${urlSourcePath}/`
+          `/otakudesu/getanime/${urlSourcePath}/`,
+          {
+            headers: {
+              "Cache-Control": "no-cache"
+            }
+          }
         );
         return response.data;
       },
@@ -54,7 +59,7 @@ class fetchApi {
           `/otakudesu/searchanime?judul=${inputValue}`
         );
 
-        console.log(response)
+        // console.log(response)
 
         return response.data.data;
       },
