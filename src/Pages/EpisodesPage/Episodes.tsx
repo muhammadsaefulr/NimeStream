@@ -28,7 +28,7 @@ const Episodes = () => {
   const { data: dataRes, isLoading } = fetchApi.useReqAnimeEpsList(source);
 
   useEffect(() => {
-    setDataRes(dataRes?.data?.AnimeInfo[0])
+    setDataRes(dataRes?.data?.dataInfo[0])
   }, [dataRes])
 
   if (isLoading) {
@@ -112,7 +112,7 @@ const Episodes = () => {
               Hingga {dataResInfo?.totalEps} Episode
             </h1>
           </div>
-          <EpisodeList dataEps={dataRes?.data.AnimeEps} />
+          <EpisodeList dataEps={dataRes?.data.dataEps} />
         </section>
       </div>
     </div>

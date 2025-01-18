@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/otakudesu/:path*",
-      "destination": "https://sate.msaepul.my.id/otakudesu/:path*"
+      "destination": "https://nimeapi.msaepul.my.id/otakudesu/:path*"
     },
     { "source": "/(.*)", "destination": "/" }
   ]

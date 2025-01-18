@@ -16,12 +16,12 @@ class fetchApi {
     return useQuery({
       queryKey: ["getAnimeEpsList"],
       queryFn: async () => {
-        console.log("react query params:", urlSourcePath)
+        // console.log("react query params:", urlSourcePath)
         const response = await axios.get(
-          `/otakudesu/getanime/${urlSourcePath}/`,
+          `/otakudesu/getanime/${urlSourcePath}`,
           {
             headers: {
-              "Cache-Control": "no-cache"
+              "Cache-Control": "no-cache",
             }
           }
         );
@@ -36,7 +36,7 @@ class fetchApi {
       queryKey: ["getPlayAnime"],
       queryFn: async () => {
         const response = await axios.get(
-          `/otakudesu/animesource/${urlSourcePath}/`,
+          `/otakudesu/animesource/${urlSourcePath}`,
           {
             headers: {
               "Cache-Control": "no-cache",
@@ -44,7 +44,9 @@ class fetchApi {
           }
         );
 
-        return response.data.data;
+        console.log("from handlreq: ", response.data.responseData)
+
+        return response.data.responseData;
       },
       staleTime: 0,
       refetchOnWindowFocus: true,
@@ -98,7 +100,7 @@ class fetchApi {
       queryKey: ["getAnimeOngoing"],
       queryFn: async () => {
         const response = await axios.get(
-          `/otakudesu/ongoing-anime/page/${pageNum}`
+          `/otakudesu/ongoin-anime/page/${pageNum}`
         );
 
         return response.data.data;

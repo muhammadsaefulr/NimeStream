@@ -6,7 +6,10 @@ import tsconfigPaths from "vite-tsconfig-paths"
 export default defineConfig({
   server: {
     proxy: {
-      "/otakudesu": "https://sate.msaepul.my.id/otakudesu"
+      "/otakudesu": {
+        target: "https://nimeapi.msaepul.my.id",
+        changeOrigin: true,
+      }
     }
   },
   plugins: [react(), tsconfigPaths()],

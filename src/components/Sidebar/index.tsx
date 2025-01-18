@@ -20,7 +20,7 @@ const Sidebar = () => {
       key: 2,
       icon: "CalendarRange",
       title: "Ongoing",
-      link: "/ongoing/page/0",
+      link: "/ongoing/page/1",
     },
   ];
 
